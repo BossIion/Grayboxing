@@ -1,0 +1,138 @@
+[gd_scene load_steps=10 format=3 uid="uid://blqyyab53hwet"]
+
+[ext_resource type="PackedScene" uid="uid://ckpb3aw34xiqc" path="res://scenes/character_body_3d.tscn" id="1_rwgxs"]
+[ext_resource type="Script" uid="uid://bcthtlotfxr1" path="res://scenes/character_body_3d.gd" id="2_4wyf3"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwgxs"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_rwgxs"]
+size = Vector3(4.7099, 1, 3.80151)
+
+[sub_resource type="Animation" id="Animation_rwgxs"]
+resource_name = "Moving platform 1"
+length = 4.0
+loop_mode = 1
+
+[sub_resource type="Animation" id="Animation_4wyf3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1.11954, 1.93927, -10.0714)]
+}
+
+[sub_resource type="Animation" id="Animation_k0juu"]
+resource_name = "moving platform 1"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.95, 4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-1.11954, 1.93927, -10.0714), Vector3(-1.11954, 1.93927, -20.1509), Vector3(-1.11954, 1.93927, -10.0714)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k0juu"]
+_data = {
+&"Moving platform 1": SubResource("Animation_rwgxs"),
+&"RESET": SubResource("Animation_4wyf3"),
+&"moving platform 1": SubResource("Animation_k0juu")
+}
+
+[sub_resource type="BoxMesh" id="BoxMesh_71j4m"]
+
+[node name="World" type="Node3D"]
+
+[node name="Graybox" type="CSGCombiner3D" parent="."]
+transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+use_collision = true
+
+[node name="Outside_box" type="CSGBox3D" parent="Graybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.56714, 2.61795, -2.31799)
+size = Vector3(12.1343, 6.2359, 18.0837)
+
+[node name="inside_box" type="CSGBox3D" parent="Graybox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.55344, 2.806, -2.06602)
+operation = 2
+size = Vector3(11.6065, 6.19348, 17.3638)
+
+[node name="Player" parent="." instance=ExtResource("1_rwgxs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.54055, 1, 0)
+script = ExtResource("2_4wyf3")
+
+[node name="Node3D" type="Node3D" parent="Player"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0676246, 0.630024, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Player/Node3D"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5976, 15.1034, 0)
+light_energy = 4.848
+omni_range = 501.358
+
+[node name="Platforms" type="Node" parent="."]
+
+[node name="Platform 1" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11954, 0.585065, -5.53272)
+use_collision = true
+size = Vector3(4.82471, 1, 4.23828)
+
+[node name="Platform 2" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.52853, 2.62886, -22.4157)
+use_collision = true
+size = Vector3(1.11249, 1, 1.27832)
+
+[node name="Moving platform 1" type="AnimatableBody3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.11954, 1.93927, -10.0714)
+physics_material_override = SubResource("PhysicsMaterial_rwgxs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Platforms/Moving platform 1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.439965, 0.820509, -0.805958)
+shape = SubResource("BoxShape3D_rwgxs")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Platforms/Moving platform 1/CollisionShape3D"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_k0juu")
+}
+autoplay = "moving platform 1"
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Platforms/Moving platform 1/CollisionShape3D"]
+transform = Transform3D(4.99913, 0, 0, 0, 1, 0, 0, 0, 3.55583, 0, 0, 0)
+mesh = SubResource("BoxMesh_71j4m")
+
+[node name="Platform 3" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.0946, 3.25407, -22.3402)
+use_collision = true
+size = Vector3(1.11249, 1, 1.27832)
+
+[node name="Platform 5" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13.6363, 3.25407, -22.726)
+use_collision = true
+size = Vector3(2.04013, 1, 7.35797)
+
+[node name="Guessing platform 1" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.6842, 3.59583, -22.3547)
+size = Vector3(8.11777, 0.449341, 1.28149)
+
+[node name="Guessing platform 2" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.6842, 3.59583, -25.5514)
+use_collision = true
+size = Vector3(8.11777, 0.449341, 1.28149)
+
+[node name="Guessing platform 3" type="CSGBox3D" parent="Platforms"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18.6842, 3.59583, -19.71)
+size = Vector3(8.11777, 0.449341, 1.28149)
