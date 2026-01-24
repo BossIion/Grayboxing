@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://c48eaofvhv45h"]
+
+[ext_resource type="Script" uid="uid://c30psjmnegyd3" path="res://area_3d.gd" id="1_7s4qf"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_cxlvu"]
+radius = 1.13783
+
+[node name="Ball" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+script = ExtResource("1_7s4qf")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0228881, 0)
+radius = 1.16849
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("SphereShape3D_cxlvu")

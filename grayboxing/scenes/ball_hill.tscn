@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://c4fe8b6j6f2dk"]
+
+[node name="Ball hill" type="Node3D"]
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
+transform = Transform3D(17.8023, 0, 0, 0, 9.6082, 0, 0, 0, 8.31318, 0, 0, 0)
+polygon = PackedVector2Array(0, 0, 0, 1, 0.489008, 0.517494, 1, 0)
