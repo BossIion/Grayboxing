@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://blqyyab53hwet"]
+[gd_scene load_steps=14 format=3 uid="uid://blqyyab53hwet"]
 
 [ext_resource type="PackedScene" uid="uid://ckpb3aw34xiqc" path="res://scenes/character_body_3d.tscn" id="1_rwgxs"]
-[ext_resource type="Script" uid="uid://bcthtlotfxr1" path="res://scenes/character_body_3d.gd" id="2_4wyf3"]
+[ext_resource type="Script" uid="uid://bcthtlotfxr1" path="res://scripts/character_body_3d.gd" id="2_4wyf3"]
 [ext_resource type="PackedScene" uid="uid://mbta5e3hygij" path="res://scenes/stair.tscn" id="3_4wyf3"]
-[ext_resource type="Script" uid="uid://dah3dc2ja44co" path="res://scenes/staircase.gd" id="3_k0juu"]
+[ext_resource type="Script" uid="uid://dah3dc2ja44co" path="res://scripts/staircase.gd" id="3_k0juu"]
+[ext_resource type="PackedScene" uid="uid://i0uykhh7hqxt" path="res://scenes/detecting_glass.tscn" id="5_71j4m"]
+[ext_resource type="PackedScene" uid="uid://c4fe8b6j6f2dk" path="res://scenes/ball_hill.tscn" id="6_qfnet"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwgxs"]
 
@@ -59,7 +61,7 @@ _data = {
 [node name="World" type="Node3D"]
 
 [node name="Graybox" type="CSGCombiner3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(5, 0, 0, 0, 11.5675, 0, 0, 0, 7.14281, 0, 0, 0)
 use_collision = true
 
 [node name="Outside_box" type="CSGBox3D" parent="Graybox"]
@@ -487,3 +489,83 @@ transform = Transform3D(1.20475, 0, -0.448611, 0, 1, 0, 0.628488, 0, 0.859941, -
 
 [node name="Stair112" parent="Platforms/Staircase" instance=ExtResource("3_4wyf3")]
 transform = Transform3D(1.22089, 0, -0.275051, 0, 1, 0, 0.339799, 0, 0.988249, -26.9713, 17.8201, -23.3998)
+
+[node name="Glassbridge" type="Node" parent="."]
+unique_name_in_owner = true
+
+[node name="Side1" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.7772, 17.3238, -23.1428)
+size = Vector3(26.0336, 0.226685, 0.150391)
+
+[node name="Side2" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.847, 17.3238, -27.8077)
+size = Vector3(26.1212, 0.226685, 0.150391)
+
+[node name="Start" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.1213, 17.3908, -25.4776)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 4.50737)
+
+[node name="End" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54.1056, 17.3908, -25.4776)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 4.50737)
+
+[node name="Real1" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.1597, 17.3908, -26.8214)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 1.7958)
+
+[node name="Real2" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.9238, 17.3908, -26.8214)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 1.7958)
+
+[node name="Real3" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.2668, 17.3908, -24.0668)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 1.7958)
+
+[node name="Real4" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.1621, 17.3908, -26.8162)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 1.7958)
+
+[node name="Real5" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5973, 17.3908, -26.8162)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 1.7958)
+
+[node name="Real6" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5192, 17.3908, -26.8162)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 1.7958)
+
+[node name="Real7" type="CSGBox3D" parent="Glassbridge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.5396, 17.3908, -26.8162)
+use_collision = true
+size = Vector3(1.52344, 0.100464, 1.7958)
+
+[node name="Fake1" parent="Glassbridge" instance=ExtResource("5_71j4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -31.0905, 17.358, -24.0581)
+
+[node name="Fake2" parent="Glassbridge" instance=ExtResource("5_71j4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -34.8937, 17.358, -24.0581)
+
+[node name="Fake3" parent="Glassbridge" instance=ExtResource("5_71j4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -40.9638, 17.358, -24.0581)
+
+[node name="fake4" parent="Glassbridge" instance=ExtResource("5_71j4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.5622, 17.358, -24.0581)
+
+[node name="Fake5" parent="Glassbridge" instance=ExtResource("5_71j4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -47.5314, 17.358, -24.0581)
+
+[node name="Fake6" parent="Glassbridge" instance=ExtResource("5_71j4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50.5119, 17.358, -24.0581)
+
+[node name="Fake7" parent="Glassbridge" instance=ExtResource("5_71j4m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.1708, 17.358, -26.8935)
+
+[node name="Ball hill" parent="." instance=ExtResource("6_qfnet")]
+transform = Transform3D(0.0307828, 0, 0.999526, 0, 1, 0, -0.999526, 0, 0.0307828, -49.0371, 17.4047, -1.33974)
