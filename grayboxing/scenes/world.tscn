@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://blqyyab53hwet"]
+[gd_scene load_steps=24 format=3 uid="uid://blqyyab53hwet"]
 
 [ext_resource type="PackedScene" uid="uid://ckpb3aw34xiqc" path="res://scenes/character_body_3d.tscn" id="1_rwgxs"]
 [ext_resource type="Script" uid="uid://bcthtlotfxr1" path="res://scripts/character_body_3d.gd" id="2_4wyf3"]
@@ -6,6 +6,11 @@
 [ext_resource type="Script" uid="uid://dah3dc2ja44co" path="res://scripts/staircase.gd" id="3_k0juu"]
 [ext_resource type="PackedScene" uid="uid://i0uykhh7hqxt" path="res://scenes/detecting_glass.tscn" id="5_71j4m"]
 [ext_resource type="PackedScene" uid="uid://c4fe8b6j6f2dk" path="res://scenes/ball_hill.tscn" id="6_qfnet"]
+[ext_resource type="Texture2D" uid="uid://bqdesajaured1" path="res://assets/LoganPaul.webp" id="7_4mrxx"]
+[ext_resource type="Script" uid="uid://c5hpg7k0sfl0n" path="res://scenes/guess_die.gd" id="8_4mrxx"]
+[ext_resource type="Texture2D" uid="uid://dwmh3d2gty3lw" path="res://assets/jakepaul.jpg" id="8_7r4gi"]
+[ext_resource type="Texture2D" uid="uid://x1dnkyiu33fy" path="res://assets/McDonald's_square_2020.svg" id="10_e3hyu"]
+[ext_resource type="Texture2D" uid="uid://yxbp3gkunui5" path="res://assets/images.jpg" id="11_q5onr"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_rwgxs"]
 
@@ -58,15 +63,36 @@ _data = {
 
 [sub_resource type="BoxMesh" id="BoxMesh_71j4m"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_w7kh3"]
+albedo_texture = ExtResource("7_4mrxx")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_e3hyu"]
+albedo_texture = ExtResource("8_7r4gi")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_7r4gi"]
+size = Vector3(3.51855, 4.56763, 0.690369)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jhx03"]
+albedo_texture = ExtResource("10_e3hyu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8fc1"]
+albedo_texture = ExtResource("11_q5onr")
+
 [node name="World" type="Node3D"]
 
 [node name="Graybox" type="CSGCombiner3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 11.5675, 0, 0, 0, 7.14281, 0, 0, 0)
+transform = Transform3D(5, 0, 0, 0, 11.5675, 0, 0, 0, 7.14281, 0, 1.72328, 0)
 use_collision = true
 
 [node name="Outside_box" type="CSGBox3D" parent="Graybox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.56714, 2.61795, -2.31799)
 size = Vector3(12.1343, 6.2359, 18.0837)
+
+[node name="Secret door" type="CSGBox3D" parent="Graybox/Outside_box"]
+transform = Transform3D(0.0126015, 0.00147728, -0.199597, -0.00227882, 0.0864182, 0.00049573, 0.139675, 0.00363246, 0.00884514, -5.9302, 0.0120757, 7.98893)
+operation = 2
+use_collision = true
+size = Vector3(1.14855, 11.6688, 1.9053)
 
 [node name="inside_box" type="CSGBox3D" parent="Graybox"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.55344, 2.806, -2.06602)
@@ -74,7 +100,7 @@ operation = 2
 size = Vector3(11.6065, 6.19348, 17.3638)
 
 [node name="Player" parent="." instance=ExtResource("1_rwgxs")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.54055, 1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -43.9259, 18.5694, -27.4694)
 script = ExtResource("2_4wyf3")
 
 [node name="Node3D" type="Node3D" parent="Player"]
@@ -83,9 +109,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0676246, 0.630024, 0)
 [node name="Camera3D" type="Camera3D" parent="Player/Node3D"]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5976, 15.1034, 0)
-light_energy = 4.848
-omni_range = 501.358
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -22.5976, 33.2126, 0)
+light_energy = 4.983
+omni_range = 1000.0
 
 [node name="Platforms" type="Node" parent="."]
 
@@ -569,3 +595,330 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -38.1708, 17.358, -26.8935)
 
 [node name="Ball hill" parent="." instance=ExtResource("6_qfnet")]
 transform = Transform3D(0.0307828, 0, 0.999526, 0, 1, 0, -0.999526, 0, 0.0307828, -49.0371, 17.4047, -1.33974)
+
+[node name="Guessing game" type="Node" parent="."]
+
+[node name="base" type="CSGBox3D" parent="Guessing game"]
+transform = Transform3D(0.999921, 0, -0.012566, 0, 1, 0, 0.012566, 0, 0.999921, -53.0727, 26.9513, 12.4298)
+use_collision = true
+size = Vector3(7.87149, 0.197998, 27.8356)
+
+[node name="Gate 1" type="Node" parent="Guessing game"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Guessing game/Gate 1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.9311, 29.9427, 2.86081)
+use_collision = true
+size = Vector3(7.61227, 5.73737, 0.138195)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Guessing game/Gate 1/CSGBox3D"]
+transform = Transform3D(-0.999996, 0.00281421, 7.76986e-06, -0.00281422, -0.999996, -0.000313104, 6.89955e-06, -0.000313124, 1, -1.87119, -0.466459, 0.111322)
+operation = 2
+size = Vector3(3.59378, 4.84236, 0.371094)
+material = SubResource("StandardMaterial3D_w7kh3")
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Guessing game/Gate 1/CSGBox3D"]
+transform = Transform3D(-0.999796, 0.0201921, 0, -0.0201921, -0.999796, 0, 0, 0, 1, 1.95434, -0.472303, 0.111393)
+operation = 2
+size = Vector3(3.51485, 4.78258, 0.371094)
+material = SubResource("StandardMaterial3D_e3hyu")
+
+[node name="Label3D" type="Label3D" parent="Guessing game/Gate 1"]
+transform = Transform3D(-0.999992, 0.0036568, -0.00127552, 0.00365496, 0.999992, 0.0014446, 0.0012808, 0.00143993, -0.999998, -52.9374, 32.2839, 2.74379)
+text = "Who is Jake Paul?"
+font_size = 128
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Guessing game/Gate 1"]
+transform = Transform3D(-0.999996, 0.00281421, 7.76986e-06, -0.00281422, -0.999996, -0.000313104, 6.89955e-06, -0.000313124, 1, -54.8023, 29.4762, 2.97213)
+size = Vector3(3.59378, 4.84236, 0.371094)
+material = SubResource("StandardMaterial3D_w7kh3")
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Guessing game/Gate 1"]
+transform = Transform3D(-0.999796, 0.0201921, 0, -0.0201921, -0.999796, 0, 0, 0, 1, -50.9767, 29.4704, 2.9722)
+size = Vector3(3.51485, 4.78258, 0.371094)
+material = SubResource("StandardMaterial3D_e3hyu")
+
+[node name="Area3D" type="Area3D" parent="Guessing game/Gate 1"]
+transform = Transform3D(-0.999996, 0.00281421, 7.76986e-06, -0.00281422, -0.999996, -0.000313104, 6.89955e-06, -0.000313124, 1, -54.8023, 29.4762, 2.97213)
+script = ExtResource("8_4mrxx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Guessing game/Gate 1/Area3D"]
+transform = Transform3D(1, -2.66042e-08, -4.54747e-13, -6.49267e-11, 1, 0, -5.18412e-11, 0, 1, -0.114727, 0.00499153, -0.12851)
+shape = SubResource("BoxShape3D_7r4gi")
+
+[node name="Gate 2" type="Node" parent="Guessing game"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Guessing game/Gate 2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.9311, 29.9427, 10.57)
+size = Vector3(7.61227, 5.73737, 0.138195)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Guessing game/Gate 2/CSGBox3D"]
+transform = Transform3D(-0.999996, 0.00281421, 7.76986e-06, -0.00281422, -0.999996, -0.000313104, 6.89955e-06, -0.000313124, 1, -1.87119, -0.466459, 0.111322)
+size = Vector3(3.59378, 4.84236, 0.371094)
+
+[node name="Label3D" type="Label3D" parent="Guessing game/Gate 2/CSGBox3D/CSGBox3D"]
+transform = Transform3D(0.999985, -0.00562812, -4.84471e-05, -0.00562831, -0.999916, -0.0116934, 1.73687e-05, 0.0116935, -0.999932, 3.8147e-06, 0.000108719, -0.341578)
+text = "443"
+font_size = 400
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Guessing game/Gate 2/CSGBox3D"]
+transform = Transform3D(-0.999796, 0.0201921, 0, -0.0201921, -0.999796, 0, 0, 0, 1, 1.95434, -0.472303, 0.111393)
+size = Vector3(3.51485, 4.78258, 0.371094)
+
+[node name="Label3D" type="Label3D" parent="Guessing game/Gate 2/CSGBox3D/CSGBox3D2"]
+transform = Transform3D(0.978654, -0.1965, -0.0602153, -0.200793, -0.97666, -0.076285, -0.0438199, 0.0867477, -0.995266, 9.15527e-05, 0.0121803, -0.516846)
+text = "473"
+font_size = 400
+
+[node name="Label3D" type="Label3D" parent="Guessing game/Gate 2"]
+transform = Transform3D(-0.999992, 0.0036568, -0.00127552, 0.00365496, 0.999992, 0.0014446, 0.0012808, 0.00143993, -0.999998, -52.9374, 32.2839, 10.453)
+text = "What is 11 X 43?"
+font_size = 128
+
+[node name="Area3D2" type="Area3D" parent="Guessing game/Gate 2"]
+transform = Transform3D(-0.999996, 0.00281421, 7.76986e-06, -0.00281422, -0.999996, -0.000313104, 6.89955e-06, -0.000313124, 1, -54.8658, 29.4762, 10.9311)
+script = ExtResource("8_4mrxx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Guessing game/Gate 2/Area3D2"]
+transform = Transform3D(1, -2.66042e-08, -4.54747e-13, -6.49267e-11, 1, 0, -5.18412e-11, 0, 1, -0.114727, 0.00499153, -0.12851)
+shape = SubResource("BoxShape3D_7r4gi")
+
+[node name="Gate 3" type="Node" parent="Guessing game"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Guessing game/Gate 3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.9311, 29.9427, 17.471)
+size = Vector3(7.61227, 5.73737, 0.138195)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Guessing game/Gate 3/CSGBox3D"]
+transform = Transform3D(-0.999996, 0.00281421, 7.76986e-06, -0.00281422, -0.999996, -0.000313104, 6.89955e-06, -0.000313124, 1, -1.87119, -0.466459, 0.111322)
+size = Vector3(3.59378, 4.84236, 0.371094)
+
+[node name="Label3D" type="Label3D" parent="Guessing game/Gate 3/CSGBox3D/CSGBox3D"]
+transform = Transform3D(0.999985, -0.00562812, -4.84471e-05, -0.00562831, -0.999916, -0.0116934, 1.73687e-05, 0.0116935, -0.999932, 3.8147e-06, 0.000106812, -0.341578)
+text = "349"
+font_size = 400
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Guessing game/Gate 3/CSGBox3D"]
+transform = Transform3D(-0.999796, 0.0201921, 0, -0.0201921, -0.999796, 0, 0, 0, 1, 1.95434, -0.472303, 0.111393)
+size = Vector3(3.51485, 4.78258, 0.371094)
+
+[node name="Label3D" type="Label3D" parent="Guessing game/Gate 3/CSGBox3D/CSGBox3D2"]
+transform = Transform3D(0.978654, -0.1965, -0.0602153, -0.200793, -0.97666, -0.076285, -0.0438199, 0.0867477, -0.995266, 9.15527e-05, 0.0121803, -0.516846)
+text = "343
+"
+font_size = 400
+
+[node name="Label3D" type="Label3D" parent="Guessing game/Gate 3"]
+transform = Transform3D(-0.999992, 0.0036568, -0.00127552, 0.00365496, 0.999992, 0.0014446, 0.0012808, 0.00143993, -0.999998, -52.9374, 32.2839, 17.3539)
+text = "What is 7 to the power of 3?"
+font_size = 108
+
+[node name="Area3D2" type="Area3D" parent="Guessing game/Gate 3"]
+transform = Transform3D(-1.64867, 0.00280908, 7.76982e-06, -0.00463974, -0.998171, -0.000313102, 1.13752e-05, -0.000312553, 0.999995, -50.0107, 29.5022, 17.832)
+script = ExtResource("8_4mrxx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Guessing game/Gate 3/Area3D2"]
+transform = Transform3D(1, -2.66042e-08, -4.54747e-13, -6.49267e-11, 1, 0, -5.18412e-11, 0, 1, -0.114727, 0.00499153, -0.12851)
+shape = SubResource("BoxShape3D_7r4gi")
+
+[node name="Gate 4" type="Node" parent="Guessing game"]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Guessing game/Gate 4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.9311, 29.9427, 23.1891)
+size = Vector3(7.61227, 5.73737, 0.138195)
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Guessing game/Gate 4/CSGBox3D"]
+transform = Transform3D(-0.999996, 0.00281421, 7.76986e-06, -0.00281422, -0.999996, -0.000313104, 6.89955e-06, -0.000313124, 1, -1.87119, -0.466459, 0.111322)
+size = Vector3(3.59378, 4.84236, 0.371094)
+material = SubResource("StandardMaterial3D_jhx03")
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Guessing game/Gate 4/CSGBox3D"]
+transform = Transform3D(-0.999796, 0.0201921, 0, -0.0201921, -0.999796, 0, 0, 0, 1, 1.94553, -0.472303, 0.110102)
+size = Vector3(3.51485, 4.78258, 0.371094)
+material = SubResource("StandardMaterial3D_o8fc1")
+
+[node name="Label3D" type="Label3D" parent="Guessing game/Gate 4"]
+transform = Transform3D(-0.999992, 0.0036568, -0.00127552, 0.00365496, 0.999992, 0.0014446, 0.0012808, 0.00143993, -0.999998, -52.9374, 32.2839, 23.072)
+text = "Which is Mcdonalds?
+"
+font_size = 129
+
+[node name="Area3D2" type="Area3D" parent="Guessing game/Gate 4"]
+transform = Transform3D(-1.64867, 0.00280908, 7.76982e-06, -0.00463974, -0.998171, -0.000313102, 1.13752e-05, -0.000312553, 0.999995, -50.0107, 29.5022, 23.5501)
+script = ExtResource("8_4mrxx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Guessing game/Gate 4/Area3D2"]
+transform = Transform3D(1, -2.66042e-08, -4.54747e-13, -6.49267e-11, 1, 0, -5.18412e-11, 0, 1, -0.114727, 0.00499153, -0.12851)
+shape = SubResource("BoxShape3D_7r4gi")
+
+[node name="Maze" type="Node" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36.1086, 26.6237, 37.2688)
+use_collision = true
+size = Vector3(41.2708, 0.275879, 20.7268)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35.2532, 32.1361, 26.7884)
+use_collision = true
+size = Vector3(40.3868, 11.6688, 0.0399475)
+
+[node name="CSGBox3D4" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -52.8598, 32.1361, 30.5905)
+use_collision = true
+size = Vector3(5.87593, 11.6688, 0.0399475)
+
+[node name="CSGBox3D5" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -41.2228, 32.1361, 30.5905)
+use_collision = true
+size = Vector3(11.6731, 11.6688, 0.0399475)
+
+[node name="CSGBox3D8" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44.3275, 32.1361, 32.6827)
+use_collision = true
+size = Vector3(6.54714, 11.6688, 0.0399475)
+
+[node name="CSGBox3D12" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.00822042, 0, 0.999966, 0, 1, 0, -0.999966, 0, 0.00822042, -55.6544, 32.1361, 34.0513)
+use_collision = true
+size = Vector3(6.54714, 11.6688, 0.0399475)
+
+[node name="CSGBox3D13" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.999967, 0, -0.0081855, 0, 1, 0, 0.0081855, 0, -0.999967, -54.3093, 32.4585, 37.2196)
+use_collision = true
+size = Vector3(2.80275, 11.0239, 0.0399475)
+
+[node name="CSGBox3D14" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.00795868, 0, -0.999968, 0, 1, 0, 0.999968, 0, -0.00795868, -52.8372, 32.4585, 38.2329)
+use_collision = true
+size = Vector3(2.80275, 11.0239, 0.0399475)
+
+[node name="CSGBox3D15" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.99855, 0, 0.0538348, 0, 1, 0, -0.0538348, 0, 0.99855, -54.8872, 32.4585, 39.6725)
+use_collision = true
+size = Vector3(4.18555, 11.0239, 0.0399475)
+
+[node name="CSGBox3D16" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.99855, 0, 0.0538348, 0, 1, 0, -0.0538348, 0, 0.99855, -49.4863, 32.4585, 35.37)
+use_collision = true
+size = Vector3(5.26227, 11.0239, 0.0399475)
+
+[node name="CSGBox3D17" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.546321, 0, 0.837576, 0, 1, 0, -0.837576, 0, 0.546321, -52.3935, 32.4585, 36.2022)
+use_collision = true
+size = Vector3(1.63014, 11.0239, 0.0399475)
+
+[node name="CSGBox3D6" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.597317, 0, 0.802005, 0, 1, 0, -0.802005, 0, 0.597317, -38.3327, 32.1361, 34.536)
+use_collision = true
+size = Vector3(8.58821, 11.6688, 0.0399475)
+
+[node name="CSGBox3D7" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.810277, 0, 0.586047, 0, 1, 0, -0.586047, 0, -0.810277, -48.7329, 32.1361, 31.5322)
+use_collision = true
+size = Vector3(3.3395, 11.6688, 0.0399475)
+
+[node name="CSGBox3D9" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.810277, 0, 0.586047, 0, 1, 0, -0.586047, 0, -0.810277, -39.4647, 32.1361, 39.0642)
+use_collision = true
+size = Vector3(3.3395, 11.6688, 0.0399475)
+
+[node name="CSGBox3D10" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.435325, 0, -0.900273, 0, 1, 0, 0.900273, 0, -0.435325, -42.0975, 32.1361, 36.7698)
+use_collision = true
+size = Vector3(5.66471, 11.6688, 0.0399475)
+
+[node name="CSGBox3D18" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.968331, 0, -0.24967, 0, 1, 0, 0.24967, 0, -0.968331, -46.1302, 32.1361, 39.9569)
+use_collision = true
+size = Vector3(5.66471, 11.6688, 0.0399475)
+
+[node name="CSGBox3D19" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.968331, 0, -0.24967, 0, 1, 0, 0.24967, 0, -0.968331, -48.6335, 32.1361, 38.4347)
+use_collision = true
+size = Vector3(5.35189, 11.6688, 0.0399475)
+
+[node name="CSGBox3D20" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.519385, 0, -0.854541, 0, 1, 0, 0.854541, 0, -0.519385, -51.8039, 32.1451, 40.0928)
+use_collision = true
+size = Vector3(2.30739, 11.6688, 0.0399475)
+
+[node name="CSGBox3D21" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.999613, 0, -0.027817, 0, 1, 0, 0.027817, 0, -0.999613, -54.5796, 32.1451, 41.1061)
+use_collision = true
+size = Vector3(4.40614, 11.6688, 0.0399475)
+
+[node name="CSGBox3D11" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.692559, 0, -0.721361, 0, 1, 0, 0.721361, 0, -0.692559, -44.4696, 32.1646, 36.0359)
+use_collision = true
+size = Vector3(5.66471, 11.6688, 0.0399475)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.0407595, 0, 0.999169, 0, 1, 0, -0.999169, 0, 0.0407595, -15.8471, 32.1361, 37.0431)
+use_collision = true
+size = Vector3(21.1192, 11.6688, 0.0399475)
+
+[node name="CSGBox3D22" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.548497, 0, 0.836152, 0, 1, 0, -0.836152, 0, 0.548497, -34.1878, 32.1361, 33.713)
+use_collision = true
+size = Vector3(9.96562, 11.6688, 0.0399475)
+
+[node name="CSGBox3D23" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.879815, 0, -0.475317, 0, 1, 0, 0.475317, 0, 0.879815, -32.5344, 31.7716, 40.1257)
+use_collision = true
+size = Vector3(9.96562, 11.6688, 0.0399475)
+
+[node name="CSGBox3D24" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.937744, 0, 0.347328, 0, 1, 0, -0.347328, 0, 0.937744, -42.4392, 31.7716, 41.7281)
+use_collision = true
+size = Vector3(9.96562, 11.6688, 0.0399475)
+
+[node name="CSGBox3D25" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.142353, 0, 0.989816, 0, 1, 0, -0.989816, 0, 0.142353, -49.4633, 31.8514, 43.9704)
+use_collision = true
+size = Vector3(7.05976, 11.8284, 0.0399475)
+
+[node name="CSGBox3D26" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.946249, 0, 0.323439, 0, 1, 0, -0.323439, 0, -0.946249, -45.0683, 31.8514, 44.0654)
+use_collision = true
+size = Vector3(4.18406, 11.8284, 0.0399475)
+
+[node name="CSGBox3D27" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.999888, 0, 0.0149918, 0, 1, 0, -0.0149918, 0, -0.999888, -29.6852, 31.8514, 45.1148)
+use_collision = true
+size = Vector3(27.2917, 11.8284, 0.0399475)
+
+[node name="CSGBox3D28" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.999888, 0, 0.0149918, 0, 1, 0, -0.0149918, 0, -0.999888, -23.5837, 31.3418, 29.8114)
+use_collision = true
+size = Vector3(16.034, 13.3195, 0.0399475)
+
+[node name="CSGBox3D29" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(-0.999888, 0, 0.0149918, 0, 1, 0, -0.0149918, 0, -0.999888, -23.6787, 31.3418, 38.025)
+use_collision = true
+size = Vector3(11.6339, 13.3195, 0.0399475)
+
+[node name="CSGBox3D30" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.0686248, 0, -0.997643, 0, 1, 0, 0.997643, 0, 0.0686248, -18.1491, 31.3418, 34.0126)
+use_collision = true
+size = Vector3(8.10261, 13.3195, 0.0399475)
+
+[node name="Secret door2" type="CSGBox3D" parent="Maze"]
+transform = Transform3D(0.0630073, 0.00738638, -0.997986, -0.0263602, 0.999636, 0.00573436, 0.997665, 0.0259458, 0.0631791, -56.7832, 32.1416, 40.481)
+size = Vector3(1.18675, 11.6688, 0.238235)
+
+[node name="secret room" type="Node" parent="."]
+
+[node name="CSGBox3D" type="CSGBox3D" parent="secret room"]
+transform = Transform3D(-0.0139098, 0, 0.999903, 0, 1, 0, -0.999903, 0, -0.0139098, -71.6674, 26.428, 40.9089)
+use_collision = true
+size = Vector3(2.4566, 0.303223, 27.227)
+
+[node name="Label3D" type="Label3D" parent="secret room"]
+transform = Transform3D(-0.0385971, 0, 0.999255, 0, 1, 0, -0.999255, 0, -0.0385971, -86.3258, 28.3199, 40.9179)
+text = "Hi"
+font_size = 400
+
+[connection signal="body_entered" from="Guessing game/Gate 1/Area3D" to="Guessing game/Gate 1/Area3D" method="_on_body_entered"]
+[connection signal="body_entered" from="Guessing game/Gate 2/Area3D2" to="Guessing game/Gate 2/Area3D2" method="_on_body_entered"]
+[connection signal="body_entered" from="Guessing game/Gate 3/Area3D2" to="Guessing game/Gate 3/Area3D2" method="_on_body_entered"]
+[connection signal="body_entered" from="Guessing game/Gate 4/Area3D2" to="Guessing game/Gate 4/Area3D2" method="_on_body_entered"]
