@@ -5,27 +5,40 @@ var WALK_SPEED = 5.0
 var SPRINT_SPEED = 7.0
 const JUMP_VELOCITY = 4.5
 var jump = 0
+var gravity_flip_unlock = false
 # Track mouse capture state
 var is_mouse_captured = false  # Set this to false by default
-
+var gravity_direction = 1
 # Sensitivity for mouse movement
 var sensitivity = 0.1
+
+func gravity_flip(): 
+	if gravity_direction > 0:
+		return is_on_floor()
+	else:
+		return is_on_ceiling()
 
 signal addWood(wood: int)
 
 # Physics process (Character movement)
 func _physics_process(delta: float) -> void:
 	# Add gravity if not on the floor
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-	if is_on_floor():
+	if not gravity_flip():
+		velocity += get_gravity() * delta * gravity_direction
+	if Input.is_action_just_pressed("gravity_flip") and gravity_flip_unlock:
+		gravity_direction *= -1
+		var tween = get_tree().create_tween().set_ease(Tween.EASE_IN)
+		tween.tween_property($".", "velocity.y", 0, 1)
+		
+		
+	if gravity_flip():
 		jump = 0
 	# Handle jump input
 	if Input.is_action_just_pressed("ui_accept") and jump <= 1:
 		if jump == 0:
-			velocity.y = JUMP_VELOCITY
+			velocity.y = JUMP_VELOCITY * gravity_direction
 		else:
-			velocity.y += JUMP_VELOCITY
+			velocity.y += JUMP_VELOCITY * gravity_direction
 		jump += 1
 
 	# Get input direction and handle movement
