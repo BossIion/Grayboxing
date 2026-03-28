@@ -11,6 +11,7 @@ var is_mouse_captured = false  # Set this to false by default
 var gravity_direction = 1
 # Sensitivity for mouse movement
 var sensitivity = 0.1
+var tweenTime = 0.75
 
 func gravity_flip(): 
 	if gravity_direction > 0:
@@ -23,18 +24,27 @@ signal addWood(wood: int)
 # Physics process (Character movement)
 func _physics_process(delta: float) -> void:
 	var tween = create_tween().set_ease(Tween.EASE_IN).set_parallel(true)
+	var tweenUpsideDown = get_tree().create_tween().set_ease(Tween.EASE_IN).set_parallel(true)
+	var tweenRightSideUp = get_tree().create_tween().set_ease(Tween.EASE_IN).set_parallel(true)
+	tween.tween_property($".", "velocity:y", 0, 0.01)
 	tween.stop()
+	tweenUpsideDown.tween_property($".", "rotation:z", deg_to_rad(180), tweenTime)
+	tweenUpsideDown.stop()
+	tweenRightSideUp.tween_property($".", "rotation:z", 0, tweenTime)
+	tweenRightSideUp.stop()
+	if gravity_direction < 0:
+		tweenUpsideDown.play()
+	else:
+		tweenRightSideUp.play()
 		# Add gravity if not on the floor
 	if not gravity_flip():
 		velocity += get_gravity() * delta * gravity_direction
 	if Input.is_action_just_pressed("gravity_flip") and gravity_flip_unlock:
 		gravity_direction *= -1
-		tween.tween_property($".", "velocity:y", 0, 0.01)
 		tween.play()
 		
 	if gravity_flip():
 		jump = 0
-		$Node3D.global_position() += Vector3($Node3D.global_position.x, $Node3D.global_position.y, $Node3D.global_position.z )
 	# Handle jump input
 	if Input.is_action_just_pressed("ui_accept") and jump <= 1:
 		if jump == 0:
@@ -81,7 +91,7 @@ func capture_mouse():
 # Mouse movement handling (Rotation)
 func _mouse_movement(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
-		rotate_y(deg_to_rad(-event.relative.x*sensitivity))
+		rotate_y(deg_to_rad(-event.relative.x*sensitivity*gravity_direction))
 		$Node3D.rotate_x(deg_to_rad(-event.relative.y*sensitivity))# Limit vertical rotation to avoid flipping
 		$Node3D.rotation_degrees.x = clamp($Node3D.rotation_degrees.x, -90, 90)
 func sprint():
@@ -102,3 +112,8 @@ func _input(event: InputEvent) -> void:
 	sprint()
 	# Also check for mouse capture/release
 	_capture_release_mouse_button()
+
+
+func _on_area_3d_body_entered(body: Node3D) -> void:
+	$".".queue_free()
+	pass # Replace with function body.
