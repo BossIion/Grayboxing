@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://c51umhv3mwd4l"]
+
+[ext_resource type="PackedScene" uid="uid://dbn1luexel3mr" path="res://scenes/camera_pinball.tscn" id="1_jyter"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q5onr"]
+radius = 0.88527495
+
+[node name="Pinball" type="RigidBody3D" unique_id=1682015431]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1448894819]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.5094328, 2.5633354, 5.0650787)
+shape = SubResource("SphereShape3D_q5onr")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="CollisionShape3D" unique_id=967161465]
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0, 0)
+
+[node name="Node3D" parent="CollisionShape3D" unique_id=1397836644 instance=ExtResource("1_jyter")]
+transform = Transform3D(0.6666667, 0, 0, 0, 0.6666667, 0, 0, 0, 0.6666667, -0.16355217, 0.20017111, 0.092292786)
